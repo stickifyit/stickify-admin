@@ -6,7 +6,7 @@ type Props = {}
 const Dashboard = (props: Props) => {
   return (
     <div className='h-screen bg-slate-200'>
-        <Navbar/>
+      hello world
     </div>
   )
 }
