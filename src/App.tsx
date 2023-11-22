@@ -13,6 +13,8 @@ import {
 import Navbar from './components/Navbar';
 import Orders from './pages/Orders';
 import Users from './pages/Users';
+import Stickers from './pages/Stickers';
+import Catagories from './pages/Catagories';
 
 const router = createBrowserRouter([
   {
@@ -39,7 +41,23 @@ const router = createBrowserRouter([
       <Navbar />
       <Users/>
     </>,
-  }
+  },
+  {
+    path: "stickers",
+    element:
+    <>
+      <Navbar />
+      <Stickers/>
+    </>,
+  },
+  {
+    path: "catagories",
+    element:
+    <>
+      <Navbar />
+      <Catagories/>
+    </>,
+  },
 ]);
 
 

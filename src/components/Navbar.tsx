@@ -1,5 +1,5 @@
 import { Button } from '@/src/components/ui/button'
-import { Home , Users2 ,Box } from 'lucide-react'
+import { Home , Users2 ,Box, PencilRuler, Library } from 'lucide-react'
 import React from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
 import logo from "@/public/logos/logo.png"
@@ -23,6 +23,16 @@ const links = [
         label: "Users",
         icon: <Users2 size={iconsSize}/>,
         link: "/users"
+    },
+    {
+        label: "Stickers",
+        icon: <PencilRuler size={iconsSize}/>,
+        link: "/stickers"
+    },
+    {
+        label: "catagories",
+        icon: <Library size={iconsSize}/>,
+        link: "/catagories"
     },
 ]
 
