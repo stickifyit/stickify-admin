@@ -51,7 +51,7 @@ function Navbar({}: Props) {
         {
             links.map((link) => {
                 return (
-                <NavLink to={link.link} className={({isActive})=>'items-center  w-full pl-8 py-3 rounded-xl justify-start flex gap-2 '+ (isActive?"bg-primary":"bg-secondary")} key={link.label}>
+                <NavLink to={link.link} className={({isActive})=>'items-center  w-full pl-8 py-3 rounded-xl justify-start flex gap-2 '+ (isActive?"bg-primary text-primary-foreground border border-primary-foreground":"bg-secondary")} key={link.label}>
                     {link.icon}
                     {link.label}
                 </NavLink>
