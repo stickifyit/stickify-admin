@@ -28,6 +28,7 @@ function Containers({}: Props) {
                                <div  className='text-2xl'>Ready</div>
                                <div className='text-md'>{container?.sheets} Sheets</div>
                                <p>it took 23 hours to be ready</p>
+                               <p className='flex gap-2 text-sm'>{container._id}</p>
                            </div>
                         </div>
             })

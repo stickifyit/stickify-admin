@@ -84,10 +84,10 @@ function CurrentContainer({}: Props) {
                 </CardTitle>
             </CardHeader>
                 <div className='p-4 border'>
-                <div className=' w-full aspect-[9/4] border bg-stone-50 grid grid-cols-4 gap-x-[2px]'>
+                <div className=' w-full aspect-[9/4] border bg-slate-100 grid grid-cols-4 gap-x-[2px]'>
                     {
                         current?.sheetsIds.map((s, i)=>{
-                            return <img key={i} src={"https://storage.googleapis.com/stickify-storage/sheetsSnapshots/"+s+".png"} className='w-full border h-full bg-white' alt="" />
+                            return <img key={i} src={"https://storage.googleapis.com/stickify-storage/sheetsSnapshots/"+s+".png"} className='w-full border h-full ' alt="" />
                         })
                     }
                 </div>
