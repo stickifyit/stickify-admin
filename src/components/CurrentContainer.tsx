@@ -1,23 +1,38 @@
 import { Card, CardHeader, CardTitle } from '@/src/components/ui/card'
-import React from 'react'
+import React, { useEffect } from 'react'
 import sheet from "@/public/4x4 - (50 sticker).png"
 import sheet2 from "@/public/5x5 - (32 sticker).png"
 import { Progress } from '@/src/components/ui/progress'
 import { Button } from '@/src/components/ui/button'
 import { RotateCcw } from 'lucide-react'
+import axios from 'axios'
 
 type Props = {}
 
 function CurrentContainer({}: Props) {
-    const [fill, setFill] = React.useState(50)
-    const [time, setTime] = React.useState((2 * 100)/48)
+
+    const [fill, setFill] = React.useState(0)
+    const [time, setTime] = React.useState(0)
+
+    const [current, setCurrent] = React.useState<Container|null>(null)
+    const [reload, setReload] = React.useState(0)
+
+
+    useEffect(()=>{
+        setCurrent(null)
+        axios.get<Container>("http://localhost:3001/containers/current").then((res)=>{
+            setCurrent(res.data)
+            console.log(res.data)
+            setFill((res.data?.sheets??0)*25)
+        })
+    },[reload])
     
   return (
     <div className='space-y-4 flex flex-col h-screen '>
         <div className='flex items-center justify-between'>
             <h1 className='text-4xl py-6'>Current Container</h1>
             <div>
-                <Button variant={"outline"}  size="icon" ><RotateCcw size={18}/></Button>
+                <Button onClick={()=>setReload(p=>p+1)} variant={"outline"}  size="icon" ><RotateCcw size={18}/></Button>
             </div>
         </div>
 
@@ -39,7 +54,7 @@ function CurrentContainer({}: Props) {
                 <Progress  value ={fill} />
                 <div className='flex justify-between'>
                     <span>time left</span>
-                    <span>5/48 | hours</span>
+                    <span>{time}</span>
                 </div>
                 <Progress value ={time}  />
             </div>
@@ -70,8 +85,11 @@ function CurrentContainer({}: Props) {
             </CardHeader>
                 <div className='p-4 border'>
                 <div className=' w-full aspect-[9/4] border bg-stone-50 grid grid-cols-4 gap-x-[2px]'>
-                    <img src={sheet} className='w-full border h-full bg-white' alt="" />
-                    <img src={sheet2} className='w-full border h-full bg-white' alt="" />
+                    {
+                        current?.sheetsIds.map((s, i)=>{
+                            return <img key={i} src={"https://storage.googleapis.com/stickify-storage/sheetsSnapshots/"+s+".png"} className='w-full border h-full bg-white' alt="" />
+                        })
+                    }
                 </div>
                 </div>
         </Card>
