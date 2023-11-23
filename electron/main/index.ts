@@ -1,7 +1,17 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain,Notification} from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'
+
+ipcMain.on('show-notification', (event, { title, body }) => {
+  // Use native Electron Notification module
+  const notification = new Notification({
+    title: title,
+    body: body,
+  });
+
+  notification.show();
+});
 
 // The built directory structure
 //

@@ -7,6 +7,7 @@ type Container = {
     updatedAt: string; // Assuming it's a string in ISO date format
     __v: number;
     sheetsIds: string[];
+    serverTime: Date;
   };
   
   type Sheet = {

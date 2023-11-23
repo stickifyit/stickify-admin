@@ -9,23 +9,67 @@ import axios from 'axios'
 
 type Props = {}
 
+type TimeObject = 
+ { hours: number, minutes: number, seconds: number }
+
+function convertMillisecondsToTime(milliseconds: number):TimeObject {
+    // Convert milliseconds to seconds
+    const totalSeconds = milliseconds / 1000;
+
+    // Calculate hours, minutes, and seconds
+    const hours = Math.floor(totalSeconds / 3600);
+    const remainingSeconds = totalSeconds % 3600;
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+
+    return { hours, minutes, seconds };
+}
+
+const maxTime = 1000*60*1
 function CurrentContainer({}: Props) {
 
     const [fill, setFill] = React.useState(0)
-    const [time, setTime] = React.useState(0)
+    const [time, setTime] = React.useState<TimeObject|null>(null)
 
     const [current, setCurrent] = React.useState<Container|null>(null)
     const [reload, setReload] = React.useState(0)
 
 
     useEffect(()=>{
+
+        // Send a message to the main process to show a notification
         setCurrent(null)
         axios.get<Container>("http://localhost:3001/containers/current").then((res)=>{
             setCurrent(res.data)
             console.log(res.data)
             setFill((res.data?.sheets??0)*25)
         })
+        
     },[reload])
+
+
+    useEffect(() => {
+        const { ipcRenderer } = window.require('electron');
+        const interval = setInterval(() => {
+            if (current) {
+                setTime(convertMillisecondsToTime(new Date().getTime() - new Date(current.serverTime).getTime()));
+                if (new Date().getTime() - new Date(current.serverTime).getTime() > maxTime) {
+                    setCurrent(null)
+                    setReload(p=>p+1)
+                    ipcRenderer.send('show-notification', {
+                    title: 'Container Timeout',
+                    body: 'the container is ready for processing',
+                    });
+                }
+            }else{
+                setTime(null)
+            }
+        }, 1000);
+    
+        // Cleanup the interval on component unmount
+        return () => clearInterval(interval);
+    }, [current]); // Fix: use 'current' instead of 'time'
+    
     
   return (
     <div className='space-y-4 flex flex-col h-screen '>
@@ -54,9 +98,9 @@ function CurrentContainer({}: Props) {
                 <Progress  value ={fill} />
                 <div className='flex justify-between'>
                     <span>time left</span>
-                    <span>{time}</span>
+                    <span>{time?.hours??0} : {time?.minutes??0} : {Math.floor(time?.seconds??0)}</span>
                 </div>
-                <Progress value ={time}  />
+                <Progress value ={((new Date().getTime() - new Date(current?.serverTime ?? new Date()).getTime())*100/(maxTime))}  />
             </div>
         </Card>
         <Card className='max-w-xs flex-1'>
