@@ -4,8 +4,11 @@ import sheet from "@/public/4x4 - (50 sticker).png"
 import sheet2 from "@/public/5x5 - (32 sticker).png"
 import { Progress } from '@/src/components/ui/progress'
 import { Button } from '@/src/components/ui/button'
-import { RotateCcw } from 'lucide-react'
+import { Filter, RotateCcw } from 'lucide-react'
 import axios from 'axios'
+import socket from '@/lib/socket'
+import { useCurrentContainer } from '@/store/currentContainer'
+import { useContainers } from '@/store/containers'
 
 type Props = {}
 
@@ -31,36 +34,17 @@ function CurrentContainer({}: Props) {
     const [fill, setFill] = React.useState(0)
     const [time, setTime] = React.useState<TimeObject|null>(null)
 
-    const [current, setCurrent] = React.useState<Container|null>(null)
-    const [reload, setReload] = React.useState(0)
+    const {current ,setCurrent,reload,setReload} = useCurrentContainer()
+    const {containers}=useContainers()
 
-
-    useEffect(()=>{
-
-        // Send a message to the main process to show a notification
-        setCurrent(null)
-        axios.get<Container>("http://localhost:3001/containers/current").then((res)=>{
-            setCurrent(res.data)
-            console.log(res.data)
-            setFill((res.data?.sheets??0)*25)
-        })
-        
-    },[reload])
 
 
     useEffect(() => {
+        setFill((current?.sheets??0)*25)
         const { ipcRenderer } = window.require('electron');
         const interval = setInterval(() => {
             if (current) {
                 setTime(convertMillisecondsToTime(new Date().getTime() - new Date(current.serverTime).getTime()));
-                if (new Date().getTime() - new Date(current.serverTime).getTime() > maxTime) {
-                    setCurrent(null)
-                    setReload(p=>p+1)
-                    ipcRenderer.send('show-notification', {
-                    title: 'Container Timeout',
-                    body: 'the container is ready for processing',
-                    });
-                }
             }else{
                 setTime(null)
             }
@@ -76,7 +60,7 @@ function CurrentContainer({}: Props) {
         <div className='flex items-center justify-between'>
             <h1 className='text-4xl py-6'>Current Container</h1>
             <div>
-                <Button onClick={()=>setReload(p=>p+1)} variant={"outline"}  size="icon" ><RotateCcw size={18}/></Button>
+                <Button onClick={()=>setReload(Math.random())} variant={"outline"}  size="icon" ><RotateCcw size={18}/></Button>
             </div>
         </div>
 
@@ -111,11 +95,11 @@ function CurrentContainer({}: Props) {
             </CardHeader>
             <div className='px-4 py-2 flex items-end justify-between'>
                 <div>Ready</div>
-                <div className='text-3xl'>3</div>
+                <div className='text-3xl'>{containers?.filter((c)=>c.state=="ready").length}</div>
             </div>
             <div className='px-4 py-2 flex items-end justify-between'>
                 <div>Printed</div>
-                <div className='text-3xl'>1</div>
+                <div className='text-3xl'>{containers?.filter((c)=>c.state=="printed").length}</div>
             </div>
         </Card>
         </div>

@@ -2,7 +2,7 @@ type Container = {
     _id: string;
     isOpen: "open" | "closed";
     sheets: number;
-    state: "filling" | "ready"; // Add more states as needed
+    state: "filling" | "ready"|"printed"|"delivering"| "delivered"; // Add more states as needed
     createdAt: string; // Assuming it's a string in ISO date format
     updatedAt: string; // Assuming it's a string in ISO date format
     __v: number;

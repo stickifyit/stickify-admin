@@ -2,16 +2,11 @@ import React,{useEffect} from 'react'
 import axios from "axios"
 import { Card } from '@/src/components/ui/card'
 import { Button } from '@/src/components/ui/button'
+import { useContainers } from '@/store/containers'
 type Props = {}
 
 function Containers({}: Props) {
-    const [containers,setContainers] = React.useState<Container[]|[]>([])
-    useEffect(()=>{
-        axios.get("http://localhost:3001/containers/containers").then((res)=>{
-            console.log(res.data)
-            setContainers(res.data)
-        })
-    },[])
+    const {containers,setContainers} = useContainers()
   return (
     <div className='flex flex-col gap-2'>
         {
