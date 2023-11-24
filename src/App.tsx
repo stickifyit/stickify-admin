@@ -19,7 +19,6 @@ import axios from "axios";
 import { useContainers } from './store/containers'
 import { useCurrentContainer } from './store/currentContainer';
 import socket from './lib/socket';
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -76,7 +75,7 @@ function App() {
             console.log(res.data)
             setContainers(res.data)
         })
-    },[])
+    },[reload])
 
 
     useEffect(()=>{
@@ -92,20 +91,24 @@ function App() {
 
     useEffect(()=>{
         const { ipcRenderer } = window.require('electron');
+        const pathIcon = "/public/logos/logo.png"
         const handelAddOrder = ()=>{
           setTimeout(() => {
             setReload(Math.random())
             ipcRenderer.send('show-notification', {
                 title: 'New Order',
                 body: 'a new order has been added',
+                icon: pathIcon
             });
           }, 1000);
         }
         const handelContainerClosed = ()=>{
             setCurrent(null)
+            setReload(Math.random())
             ipcRenderer.send('show-notification', {
                 title: 'Container Timeout',
                 body: 'the container is ready for processing',
+                icon: pathIcon
             });
         }
         socket.on("add order",handelAddOrder)
