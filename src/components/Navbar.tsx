@@ -25,9 +25,9 @@ const links = [
         link: "/users"
     },
     {
-        label: "Stickers",
+        label: "Packs",
         icon: <PencilRuler size={iconsSize}/>,
-        link: "/stickers"
+        link: "/packs"
     },
     {
         label: "catagories",

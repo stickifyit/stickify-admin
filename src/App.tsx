@@ -19,6 +19,7 @@ import axios from "axios";
 import { useContainers } from './store/containers'
 import { useCurrentContainer } from './store/currentContainer';
 import socket from './lib/socket';
+import Packs from './pages/Packs';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -46,11 +47,19 @@ const router = createBrowserRouter([
     </>,
   },
   {
-    path: "stickers",
+    path: "stickers/:pack",
     element:
     <>
       <Navbar />
       <Stickers/>
+    </>,
+  },
+  {
+    path: "packs",
+    element:
+    <>
+      <Navbar />
+      <Packs/>
     </>,
   },
   {
