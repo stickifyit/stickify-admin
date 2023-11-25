@@ -13,11 +13,11 @@ const Orders = (props: Props) => {
 
 
 
-        <Tabs defaultValue="current-container" className="w-full">
+        <Tabs defaultValue="orders" className="w-full">
         <TabsList>
+            <TabsTrigger value="orders">Orders</TabsTrigger>
             <TabsTrigger value="current-container">Current container</TabsTrigger>
             <TabsTrigger value="containers">Containers</TabsTrigger>
-            <TabsTrigger value="orders">Orders</TabsTrigger>
         </TabsList>
         <TabsContent value="current-container">
             <CurrentContainer/>
