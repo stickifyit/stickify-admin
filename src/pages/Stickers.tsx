@@ -6,6 +6,7 @@ import { useCurrentContainer } from '@/store/currentContainer'
 import axios from 'axios'
 import { Heart, Search } from 'lucide-react'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 type Props = {}
 interface Sticker {
@@ -21,11 +22,12 @@ interface Sticker {
 function Stickers({}: Props) {
   const [search, setSearch] = React.useState("")
   const {reload} = useCurrentContainer()
+  const { pack } = useParams()
 
   const [stickers, setStickers] = React.useState<Sticker[]|[]>([])
   React.useEffect(() => {
-    axios.post<Sticker[]>("http://localhost:3001/sticker/get-by-category", {
-      category: "test category"
+    axios.post<Sticker[]>("http://localhost:3001/sticker/get-by-pack", {
+      pack,
     }).then(res => {
       setStickers(res.data)
     })

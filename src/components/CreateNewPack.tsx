@@ -12,11 +12,10 @@ import { Input } from '@/src/components/ui/input'
 import { Textarea } from '@/src/components/ui/textarea'
 import axios from 'axios'
 import { useCurrentContainer } from '@/store/currentContainer'
-import { useParams } from 'react-router-dom'
   
 type Props = {}
 
-const CreateNewSticker = (props: Props) => {
+const CreateNewPack = (props: Props) => {
     const [file, setFile] = React.useState<File | null>(null)
     const [name, setName] = React.useState("")
     const [keywords, setKeywords] = React.useState("")
@@ -25,7 +24,6 @@ const CreateNewSticker = (props: Props) => {
     const [open, setOpen] = React.useState(false)
     const {setReload} = useCurrentContainer()
     const [loading,setLoading]=React.useState(false)
-    const {pack} = useParams()
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
@@ -71,11 +69,10 @@ const CreateNewSticker = (props: Props) => {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data.name)
-                    axios.post("http://localhost:3001/sticker/create", {
+                    axios.post("http://localhost:3001/packs/create", {
                         name,
                         keywords: keywords.includes(",")?keywords.split(","):[keywords??""],
                         description,
-                        pack,
                         imageURL: data.name,
                         category: "test category",
                     }).then((res)=>{
@@ -95,7 +92,7 @@ const CreateNewSticker = (props: Props) => {
         </DialogTrigger>
         <DialogContent>
             <DialogHeader>
-            <DialogTitle>New Sticker</DialogTitle>
+            <DialogTitle>New Pack</DialogTitle>
             <DialogDescription>
                 <div className='flex flex-col gap-2 mt-6'>
                     {
@@ -117,4 +114,4 @@ const CreateNewSticker = (props: Props) => {
   )
 }
 
-export default CreateNewSticker
+export default CreateNewPack

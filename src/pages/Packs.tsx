@@ -1,11 +1,33 @@
+import CreateNewPack from '@/components/CreateNewPack'
 import CreateNewSticker from '@/components/CreateNewSticker'
+import { Card } from '@/src/components/ui/card'
 import { Input } from '@/src/components/ui/input'
+import { useCurrentContainer } from '@/store/currentContainer'
+import axios from 'axios'
 import { Search } from 'lucide-react'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 type Props = {}
-
+interface PackItem {
+    _id: string;
+    name: string;
+    imageURL: string;
+    keywords: string[];
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
 const Packs = (props: Props) => {
+
+  const {reload} = useCurrentContainer()
+  
+  const [packs, setPacks] = React.useState<PackItem[]|[]>([])
+  React.useEffect(() => {
+    axios.get<PackItem[]>("http://localhost:3001/packs/all").then(res => {
+      setPacks(res.data)
+    })
+  },[reload])
   return (
     <div className='min-h-screen w-full flex-1'>
         <div className='container mx-auto'>
@@ -15,7 +37,22 @@ const Packs = (props: Props) => {
                     <Search size={18} className='absolute top-1/2 left-3 -translate-y-1/2'/>
                     <Input placeholder='Search pack' className='max-w-md flex-1 pl-10'/>
                 </div>
-                <CreateNewSticker/>
+                <CreateNewPack/>
+            </div>
+
+            <div className='grid grid-cols-5 gap-3'>
+                {
+                    packs.map((item, index) => (
+                        <Link to={"/stickers/"+item._id}  key={item._id} className="">
+                            <Card key={item._id} className='w-full rounded-xl overflow-hidden relative'>
+                                <img src={"https://storage.googleapis.com/stickify-storage/"+item.imageURL} alt="" className='aspect-square drop-shadow-md w-full object-cover p-4'/>
+                                <div className='p-3 text-center'>
+                                    <h3 className='text-center font-semibold'>{item.name}</h3>
+                                </div>
+                            </Card>
+                        </Link>
+                    ))
+                }
             </div>
         </div>
     </div>
