@@ -56,19 +56,19 @@ function CurrentContainer({}: Props) {
     
     
   return (
-    <div className='space-y-4 flex flex-col h-screen '>
-        <div className='flex items-center justify-between'>
+    <div className=' flex flex-row-reverse gap-2  h-screen '>
+        {/* <div className='flex items-center justify-between'>
             <h1 className='text-4xl py-6'>Current Container</h1>
             <div>
                 <Button onClick={()=>setReload(Math.random())} variant={"outline"}  size="icon" ><RotateCcw size={18}/></Button>
             </div>
-        </div>
+        </div> */}
 
         <div
-        className='flex gap-4'
+        className='flex gap-4 flex-col flex-1'
         >
         
-        <Card className='max-w-sm flex-1'>
+        <Card className='max-w-sm h-fit'>
             <CardHeader>
                 <CardTitle>
                     Container progress
@@ -87,7 +87,7 @@ function CurrentContainer({}: Props) {
                 <Progress value ={((new Date().getTime() - new Date(current?.serverTime ?? new Date()).getTime())*100/(maxTime))}  />
             </div>
         </Card>
-        <Card className='max-w-xs flex-1'>
+        <Card className='max-w-xs h-fit'>
             <CardHeader>
                 <CardTitle>
                     Containers state 
@@ -103,7 +103,7 @@ function CurrentContainer({}: Props) {
             </div>
         </Card>
         </div>
-        <Card className=' max-w-5xl'>
+        <Card className=' max-w-5xl h-fit'>
             <CardHeader>
                 <CardTitle>
                     <div>
@@ -112,13 +112,13 @@ function CurrentContainer({}: Props) {
                 </CardTitle>
             </CardHeader>
                 <div className='p-4 border'>
-                <div className=' w-full aspect-[9/4] border bg-slate-100 grid grid-cols-4 gap-x-[2px]'>
-                    {
-                        current?.sheetsIds.map((s, i)=>{
-                            return <img key={i} src={"https://storage.googleapis.com/stickify-storage/sheetsSnapshots/"+s+".png"} className='w-full border h-full ' alt="" />
-                        })
-                    }
-                </div>
+                    <div className='  aspect-[4/6] grid grid-cols-2 rounded-md w-[450px] grid-rows-2'>
+                        {
+                            current?.sheetsIds.map((s, i)=>{
+                                return <img key={i} src={s?.image as string ??""} className=' rounded-md border h-full object-contain' alt="" />
+                            })
+                        }
+                    </div>
                 </div>
         </Card>
         </div>

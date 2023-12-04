@@ -25,5 +25,34 @@ type Container = {
   
 
 
-
+  type StickerSheet = {
+    _id: string;
+    state: string;
+    orderId: string;
+    image: string;
+    type: string;
+    stickerSheetSchema: {
+      data: {
+        sheetId: string;
+      };
+      _id: string;
+      container: string;
+    };
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  
+  type CurrentContainer = {
+    _id: string;
+    isOpen: string;
+    sheets: number;
+    sheetsIds: StickerSheet[];
+    state: string;
+    serverTime: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+  };
+  
   

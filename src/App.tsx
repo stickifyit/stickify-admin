@@ -91,7 +91,7 @@ function App() {
 
         // Send a message to the main process to show a notification
         setCurrent(null)
-        axios.get<Container>("http://localhost:3001/containers/current").then((res)=>{
+        axios.get<CurrentContainer>("http://localhost:3001/containers/current").then((res)=>{
             setCurrent(res.data)
             console.log(res.data)
         })
