@@ -8,12 +8,12 @@ type Props = {}
 function Containers({}: Props) {
     const {containers,setContainers} = useContainers()
   return (
-    <div className='grid grid-cols-2  gap-2'>
+    <div className='grid grid-cols-4  gap-2'>
         {
             containers?.map((container)=>{
                 
-                return  <div key={container._id} className='p-2 flex gap-4 pb-2 border-b'>
-                           <div className='w-[300px] grid grid-cols-2 grid-rows-2 rounded-md gap-0 aspect-[4/6] max-w-xl bg-slate-300'>
+                return  <div key={container._id} className='p-2 overflow-hidden rounded-xl flex flex-col gap-4 pb-2 border-b'>
+                           <div className='w-full grid grid-cols-2 grid-rows-2 rounded-md gap-0 aspect-[4/6] max-w-xl bg-slate-300'>
                             {
                                 container?.sheetsIds?.map((sheet)=>{
                                     return <img key={sheet._id} src={sheet.image} className='w-full object-contain border h-full ' alt="" />

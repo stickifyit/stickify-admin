@@ -119,7 +119,7 @@ export function OrdersTable() {
       <h1 className="text-4xl py-6">Orders</h1>
       <div className="flex gap-3">
         <div className="flex-1">
-          <Card className="py-4 px-2">
+          <Card className="py-4 px-2 sticky top-0 ">
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
@@ -169,7 +169,7 @@ export function OrdersTable() {
           </Card>
         </div>
         {selected && (
-          <Card className="w-[600px] bg-white ">
+          <Card className="w-[600px] bg-white sticky top-0">
             <CardHeader>
               <CardTitle>Order Details</CardTitle>
             </CardHeader>
