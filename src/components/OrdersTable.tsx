@@ -17,7 +17,7 @@ import {
 } from "@/src/components/ui/table";
 import { useCurrentContainer } from "@/store/currentContainer";
 import axios from "axios";
-import { Coffee, Loader2, Shirt, Sticker } from "lucide-react";
+import { Coffee, Loader2, Shirt, Sticker, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type CustomSheetItem = {
@@ -75,7 +75,9 @@ type Order = {
   customerId: string;
   closed: boolean;
   number: string;
-  fullName: string;
+  firstName: string;
+  lastName: string;
+  price: number;
   address: string;
   state: string;
   cart: CartItem[];
@@ -125,11 +127,13 @@ export function OrdersTable() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="">State</TableHead>
-                  <TableHead className="">FullName</TableHead>
+                  <TableHead className="">FirstName</TableHead>
+                  <TableHead className="">LastName</TableHead>
                   <TableHead>Number</TableHead>
                   <TableHead>Address</TableHead>
                   <TableHead>Cart Items</TableHead>
                   <TableHead className="text-right">Price</TableHead>
+                  <TableHead className="text-right">Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -153,14 +157,25 @@ export function OrdersTable() {
                         <StateComp state={order?.state ?? ""} />
                       </TableCell>
                       <TableCell className="font-medium">
-                        {order.fullName}
+                        {order.firstName}
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {order.lastName}
                       </TableCell>
                       <TableCell>{order.number}</TableCell>
                       <TableCell>{order.address}</TableCell>
                       <TableCell>
                         {order.cart.length} item{order.cart.length > 1 && "s"}
                       </TableCell>
-                      <TableCell className="text-right">0Dh</TableCell>
+                      <TableCell className="text-right text-md font-medium">{(order?.price)?.toFixed(2)} Dh</TableCell>
+                      <TableCell className="text-right">
+                      {order?.createdAt ? new Intl.DateTimeFormat('en-US', {
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }).format(new Date(order.createdAt)) : ''}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -170,6 +185,7 @@ export function OrdersTable() {
         </div>
         {selected && (
           <Card className="w-[600px] bg-white sticky top-0">
+            <Button onClick={() => setSelected(null)} className="absolute top-2 right-2"><X/></Button>
             <CardHeader>
               <CardTitle>Order Details</CardTitle>
             </CardHeader>
@@ -177,9 +193,20 @@ export function OrdersTable() {
               <h1>
                 State : <StateComp state={selected?.state ?? ""} />
               </h1>
-              <h1 className="text-xl">name : {selected?.fullName}</h1>
-              <h1 className="text-xl">number : {selected?.number}</h1>
-              <h1 className="text-xl">address : {selected?.address}</h1>
+              <h1 className="text-lg">Time : {
+                      selected?.createdAt ? new Intl.DateTimeFormat('en-US', {
+                          year: '2-digit',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        }).format(new Date(selected?.createdAt)) : ''
+              }</h1>
+              <h1 className="text-lg">firstName : {selected?.firstName}</h1>
+              <h1 className="text-lg">lastName : {selected?.lastName}</h1>
+              <h1 className="text-lg">number : {selected?.number}</h1>
+              <h1 className="text-lg">address : {selected?.address}</h1>
+              <h1 className="text-lg">Price : {selected?.price.toFixed(2)} Dh</h1>
               <hr className="my-2" />
               <div className="flex justify-between">
                 <h1 className="text-xl">Cart Items</h1>
