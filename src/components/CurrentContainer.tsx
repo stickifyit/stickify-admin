@@ -115,7 +115,23 @@ function CurrentContainer({}: Props) {
                     <div className='  aspect-[4/6] grid grid-cols-2 rounded-md w-[450px] grid-rows-2'>
                         {
                             current?.sheetsIds.map((s, i)=>{
-                                return <img key={i} src={s?.image as string ??""} className=' rounded-md border h-full object-contain' alt="" />
+                                if(s.type==="sticker-sheet"){
+                                    return <img key={s._id} src={s?.image as string ??""} className=' rounded-md border h-full object-contain' alt="" />
+                                }else{
+                                    return <div className='relative w-full h-full border ' key={s._id}>
+                                        {
+                                            s?.customSheetSchema?.data.items.map((item)=>{
+                                                const persW = (210 / 18) 
+                                                const persH = ((210*1.5) / 28)
+                                                const width = (item.width / 100) * persW + "px"
+                                                const height = (item.height / 100) * persH + "px"
+                                                const x = (item.x / 100) * persW +7+ "px"
+                                                const y = (item.y / 100) * persH +7+ "px"
+                                                return <img key={item.image + i + item.height} src={item.image as string ??""} style={{left:x,top:y,width:width,height:height}} className='absolute p-0 rounded-md object-contain' alt="" />
+                                            })
+                                        }
+                                    </div>
+                                }
                             })
                         }
                     </div>

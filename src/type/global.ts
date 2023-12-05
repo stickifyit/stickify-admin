@@ -31,13 +31,26 @@ type Container = {
     orderId: string;
     image: string;
     type: string;
-    stickerSheetSchema: {
+    stickerSheetSchema?: {
       data: {
         sheetId: string;
       };
       _id: string;
       container: string;
     };
+    customSheetSchema?: {
+      data: {
+        items: {
+          x: number;
+          y: number;
+          width: number;
+          height: number;
+          image: string;
+        }[];
+      };
+      _id: string;
+      container: string;
+    }
     createdAt: string;
     updatedAt: string;
     __v: number;
