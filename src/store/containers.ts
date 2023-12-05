@@ -1,11 +1,11 @@
 import create from "zustand"
 
 type State = {
-    containers : Container[],
-    setContainers : (containers : Container[]) => void
+    containers : CurrentContainer[],
+    setContainers : (containers : CurrentContainer[]) => void
 }
 
 export const useContainers = create<State>((set) => ({
     containers : [],
-    setContainers : (containers : Container[]) => set({ containers }),
+    setContainers : (containers : CurrentContainer[]) => set({ containers }),
 }))
