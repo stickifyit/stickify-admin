@@ -82,7 +82,7 @@ type Order = {
 
    
   export function OrdersTable() {
-    const {reload} = useCurrentContainer()
+    const {reload,setReload} = useCurrentContainer()
     const [orders,setOrders] = useState<Order[]>([])
     const [selected,setSelected] = useState<Order|null>(null)
 
@@ -90,12 +90,17 @@ type Order = {
         axios.get<Order[]>("http://localhost:3001/orders/all").then(res=>{
             setOrders(res.data)
             console.log(res.data)
-            setSelected(res.data[0])
+            // setSelected(res.data[0])
         })
     },[reload])
 
 
-
+    const confirmAll =async()=>{
+      if(!selected) return
+       await axios.post("http://localhost:3001/orders/confirm/"+selected._id).then(res=>{
+          setReload(Math.random())
+       })
+    }
     
     return (
     <div className="flex gap-3">
@@ -133,6 +138,9 @@ type Order = {
             </Table>
         </Card>
       </div>
+      {
+        selected && (
+
       <Card className="w-[600px] bg-white ">
         <CardHeader>
           <CardTitle>Order Details</CardTitle>
@@ -145,7 +153,7 @@ type Order = {
             <hr className="my-2"/>
             <div className="flex justify-between">
                 <h1 className="text-xl">Cart Items</h1>
-                <Button>confirm all</Button>
+                <Button onClick={confirmAll}>confirm all</Button>
             </div>
             <div className="grid grid-cols-3 gap-2">
                 {
@@ -175,6 +183,8 @@ type Order = {
             </div>
         </CardContent>
       </Card>
+        )
+      }
     </div>
     )
   }
@@ -182,6 +192,7 @@ type Order = {
 
 
 const StateComp = ({state}:{state:string}) => {
-  return  state == "new" ? <span className="px-2 rounded-xl mx-2 text-white bg-green-500">{state}</span> : ""
+  return  state === "pending" ? <span className="px-2 rounded-xl mx-2 text-white bg-green-500">{state}</span> : 
+          state === "confirmed" ? <span className="px-2 rounded-xl mx-2 text-white bg-blue-500">{state}</span> : ""
 }
 
