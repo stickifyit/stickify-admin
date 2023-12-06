@@ -20,6 +20,7 @@ import { useContainers } from './store/containers'
 import { useCurrentContainer } from './store/currentContainer';
 import socket from './lib/socket';
 import Packs from './pages/Packs';
+import StickersSheets from './pages/StickersSheets';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -68,6 +69,14 @@ const router = createBrowserRouter([
     <>
       <Navbar />
       <Catagories/>
+    </>,
+  },
+  {
+    path: "sticker-sheets",
+    element:
+    <>
+      <Navbar />
+      <StickersSheets/>
     </>,
   },
 ]);

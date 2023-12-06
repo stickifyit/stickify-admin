@@ -19,21 +19,21 @@ const links = [
         icon: <Box size={iconsSize}/>,
         link: "/orders"
     },
-    {
-        label: "Users",
-        icon: <Users2 size={iconsSize}/>,
-        link: "/users"
-    },
+    // {
+    //     label: "Users",
+    //     icon: <Users2 size={iconsSize}/>,
+    //     link: "/users"
+    // },
     {
         label: "Packs",
         icon: <PencilRuler size={iconsSize}/>,
         link: "/packs"
     },
     {
-        label: "catagories",
+        label: "Sticker sheets",
         icon: <Library size={iconsSize}/>,
-        link: "/catagories"
-    },
+        link: "/sticker-sheets"
+    }
 ]
 
 
