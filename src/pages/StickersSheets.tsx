@@ -1,7 +1,8 @@
 import CreateStickerSheet from '@/components/CreateNewStickerSheet';
 import { Button } from '@/src/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/src/components/ui/card';
 import axios from 'axios'
+import { Trash } from 'lucide-react';
 import React from 'react'
 
 type Props = {}
@@ -16,6 +17,7 @@ export type Sheet = {
 
 export default function StickersSheets({}: Props) {
     const [sheets, setSheets] = React.useState<Sheet[]>([])
+
     React.useEffect(() => {
         axios.get<Sheet[]>("http://localhost:3001/sticker-sheet/all").then((res) => {
             setSheets(res.data)
@@ -28,7 +30,7 @@ export default function StickersSheets({}: Props) {
     }
   return (
     <div className='container relative h-screen overflow-y-auto'>
-        <div className='mt-8 flex gap-2 justify-between py-4 sticky top-0 bg-white px-4 rounded-xl'> 
+        <div className='mt-8 z-10 flex gap-2 justify-between py-4 sticky top-0 bg-white px-4 rounded-xl'> 
             <h1 className='text-4xl font-medium'>Stickers</h1>
             <CreateStickerSheet/>
         </div>
@@ -45,14 +47,22 @@ export default function StickersSheets({}: Props) {
 
 
 export const SheetComp = ({index,sheet}:{index:number,sheet:Sheet}) => {
+    const deleteSheet = () => {
+        const confirm = window.confirm("Are you sure you want to delete this sheet?")
+        if(!confirm) return
+        axios.delete("http://localhost:3001/sticker-sheet/"+sheet._id).then(() => {
+            window.location.reload()
+        })
+    }
     return(
-        <Card>
-            <CardHeader>
-                <CardTitle>{sheet.name}</CardTitle>
-            </CardHeader>
-            <CardContent className='px-2 pb-2'>
+        <Card className='relative'>
+            <Button onClick={deleteSheet} size={"icon"} variant={"secondary"} className='absolute top-3 right-3'><Trash/></Button>
+            <CardContent className='px-2  py-2'>
             <img src={sheet.snapshot} alt={sheet.name} className='w-full rounded-lg'></img>
             </CardContent>
+            <CardFooter>
+                <CardTitle>{sheet.name}</CardTitle>
+            </CardFooter>
         </Card>
     )   
 }
