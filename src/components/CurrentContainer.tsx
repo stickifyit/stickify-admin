@@ -82,9 +82,11 @@ function CurrentContainer({}: Props) {
                 <Progress  value ={fill} />
                 <div className='flex justify-between'>
                     <span>time left</span>
-                    <span>{time?.hours??0} : {time?.minutes??0} : {Math.floor(time?.seconds??0)}</span>
                 </div>
-                <Progress value ={((new Date().getTime() - new Date(current?.serverTime ?? new Date()).getTime())*100/(maxTime))}  />
+                <span className='text-5xl font-bold'>
+                    {(time?.hours??0).toString().padStart(2, '0')}: 
+                    {(time?.minutes??0).toString().padStart(2, '0')}: 
+                    {(Math.floor(time?.seconds??0)).toString().padStart(2, '0')}</span>
             </div>
         </Card>
         <Card className='max-w-xs h-fit'>
