@@ -34,7 +34,7 @@ function Stickers({}: Props) {
   },[reload])
 
   return (
-    <div className='min-h-screen w-full flex-1'>
+    <div className='h-screen overflow-y-auto w-full flex-1'>
         <div className='container mx-auto'>
             <div className='flex w-full gap-2 justify-between items-center'>
                 <h1 className='text-4xl py-10'>Name of packet</h1>
