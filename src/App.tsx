@@ -21,6 +21,7 @@ import { useCurrentContainer } from './store/currentContainer';
 import socket from './lib/socket';
 import Packs from './pages/Packs';
 import StickersSheets from './pages/StickersSheets';
+import { BackendHost } from './constants/backend';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -89,7 +90,7 @@ function App() {
     const {setContainers} = useContainers()
     const {setCurrent,reload,setReload} = useCurrentContainer()
     useEffect(()=>{
-        axios.get("http://localhost:3001/containers/containers").then((res)=>{
+        axios.get(BackendHost+"/containers/containers").then((res)=>{
             console.log(res.data)
             setContainers(res.data)
         })
@@ -100,7 +101,7 @@ function App() {
 
         // Send a message to the main process to show a notification
         setCurrent(null)
-        axios.get<CurrentContainer>("http://localhost:3001/containers/current").then((res)=>{
+        axios.get<CurrentContainer>(BackendHost+"/containers/current").then((res)=>{
             setCurrent(res.data)
             console.log(res.data)
         })

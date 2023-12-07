@@ -13,6 +13,7 @@ import { Textarea } from '@/src/components/ui/textarea'
 import axios from 'axios'
 import { useCurrentContainer } from '@/store/currentContainer'
 import { useParams } from 'react-router-dom'
+import { BackendHost } from '@/constants/backend'
   
 type Props = {}
 
@@ -64,14 +65,14 @@ const CreateNewSticker = (props: Props) => {
                 formData.append("folder", "stickers");
 
                 // Use fetch to send the form data to the server
-                await fetch("http://localhost:3001/images/upload", {
+                await fetch(BackendHost+"/images/upload", {
                     method: "POST",
                     body: formData,
                 })
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data.name)
-                    axios.post("http://localhost:3001/sticker/create", {
+                    axios.post(BackendHost+"/sticker/create", {
                         name,
                         keywords: keywords.includes(",")?keywords.split(","):[keywords??""],
                         description,

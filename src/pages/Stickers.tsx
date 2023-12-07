@@ -1,4 +1,5 @@
 import CreateNewSticker from '@/components/CreateNewSticker'
+import { BackendHost } from '@/constants/backend'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
 import { Input } from '@/src/components/ui/input'
@@ -26,7 +27,7 @@ function Stickers({}: Props) {
 
   const [stickers, setStickers] = React.useState<Sticker[]|[]>([])
   React.useEffect(() => {
-    axios.post<Sticker[]>("http://localhost:3001/sticker/get-by-pack", {
+    axios.post<Sticker[]>(BackendHost+"/sticker/get-by-pack", {
       pack,
     }).then(res => {
       setStickers(res.data)

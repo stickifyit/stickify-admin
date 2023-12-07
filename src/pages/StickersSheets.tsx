@@ -1,4 +1,5 @@
 import CreateStickerSheet from '@/components/CreateNewStickerSheet';
+import { BackendHost } from '@/constants/backend';
 import { Button } from '@/src/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/src/components/ui/card';
 import axios from 'axios'
@@ -19,7 +20,7 @@ export default function StickersSheets({}: Props) {
     const [sheets, setSheets] = React.useState<Sheet[]>([])
 
     React.useEffect(() => {
-        axios.get<Sheet[]>("http://localhost:3001/sticker-sheet/all").then((res) => {
+        axios.get<Sheet[]>(BackendHost+"/sticker-sheet/all").then((res) => {
             setSheets(res.data)
             console.log(res.data)
         })
@@ -50,7 +51,7 @@ export const SheetComp = ({index,sheet}:{index:number,sheet:Sheet}) => {
     const deleteSheet = () => {
         const confirm = window.confirm("Are you sure you want to delete this sheet?")
         if(!confirm) return
-        axios.delete("http://localhost:3001/sticker-sheet/"+sheet._id).then(() => {
+        axios.delete(BackendHost+"/sticker-sheet/"+sheet._id).then(() => {
             window.location.reload()
         })
     }

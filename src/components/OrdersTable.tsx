@@ -1,3 +1,4 @@
+import { BackendHost } from "@/constants/backend";
 import { Button } from "@/src/components/ui/button";
 import {
   Card,
@@ -94,7 +95,7 @@ export function OrdersTable() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get<Order[]>("http://localhost:3001/orders/all").then((res) => {
+    axios.get<Order[]>(BackendHost+"/orders/all").then((res) => {
       setOrders(res.data);
       console.log(res.data);
       setSelected(res.data.find((item) => item._id == selectedId) ?? null);
@@ -104,10 +105,10 @@ export function OrdersTable() {
   const confirmAll = async () => {
     if (!selected) return;
     setLoading(true);
-    await axios.post("http://localhost:3001/orders/confirm/" + selected._id);
+    await axios.post(BackendHost+"/orders/confirm/" + selected._id);
 
     for (const item of selected.cart) {
-      await axios.post("http://localhost:3001/containers/add-to-container", {
+      await axios.post(BackendHost+"/containers/add-to-container", {
         id: item._id,
       });
     }

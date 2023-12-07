@@ -1,5 +1,6 @@
 import CreateNewPack from '@/components/CreateNewPack'
 import CreateNewSticker from '@/components/CreateNewSticker'
+import { BackendHost } from '@/constants/backend'
 import { Button } from '@/src/components/ui/button'
 import { Card } from '@/src/components/ui/card'
 import { Input } from '@/src/components/ui/input'
@@ -25,7 +26,7 @@ const Packs = (props: Props) => {
   
   const [packs, setPacks] = React.useState<PackItem[]|[]>([])
   React.useEffect(() => {
-    axios.get<PackItem[]>("http://localhost:3001/packs/all").then(res => {
+    axios.get<PackItem[]>(BackendHost+"/packs/all").then(res => {
       setPacks(res.data)
     })
   },[reload])
@@ -35,7 +36,7 @@ const Packs = (props: Props) => {
     e.stopPropagation()
     const confirm = window.confirm("Are you sure you want to delete this pack?")
     if(!confirm) return
-    await axios.delete("http://localhost:3001/packs/"+id).then(() => {
+    await axios.delete(BackendHost+"/packs/"+id).then(() => {
       window.location.reload()
     })
   }

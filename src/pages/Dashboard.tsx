@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import { BackendHost } from "@/constants/backend";
 import {
   Card,
   CardContent,
@@ -26,7 +27,7 @@ const Dashboard = (props: Props) => {
     confirmed: 0
   })
   useEffect(() => {
-    axios.get<Data>("http://localhost:3001/orders/dashboard").then((res) => {
+    axios.get<Data>(BackendHost+"/orders/dashboard").then((res) => {
       setData(res.data)
     })
   },[])
